@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<environments default="development">
+	<environment id="development">
+		<transactionManager type="JDBC" />
+		<dataSource type="POOLED">
+			<property name="poolMaximumActiveConnections" value="10"/>
+			<property name="poolMaximumIdleConnections" value="10"/>
+			<property name="poolMaximumCheckoutTime" value="20000"/>
+			<property name="poolPingEnabled" value="true"/>
+			<property name="poolTimeToWait" value="15000"/>
+		</dataSource>
+	</environment>
+</environments>
+
+<!-- 
+	transactionManager type= "[JDBC|MANAGED]"		: 트랜잭션 처리를 jdbc | mybatis 에 맞긴다.	
+	dataSource type="[UNPOOLED | POOLED]"		: 풀 사용 안함 | 사용 
+	poolMaximumActiveConnections : 활성화된 최대 커넥션 수
+	poolMaximumIdleConnections : 유휴상태에서 최대 커넥션 수
+	poolMaximumCheckoutTime : 최대 커넥션 획득 시간(ms)
+	poolPingEnabled : 커넥션이 살아있는지 ping 테스트 여부
+	poolTimeToWait : 사용된 커넥션을 기다리는 시간
+	
+	poolPingQuery : 커넥션 ping 테스트 쿼리 (DB 종류에 따라 적절하게 수정)
+	poolPingConnectionsNotUsedFor : 유휴상태의 커넥션이 닫히는지 판단할 시간(ms)
+-->

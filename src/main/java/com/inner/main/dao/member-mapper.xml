@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">    
+<mapper namespace="com.inner.main.dao.MemberInter">
+	
+	<select id="getMemberList" resultType="memberVO">
+		SELECT a.*, IFNULL(b.CNT,0) AS cnt FROM soccerMember a 
+			LEFT OUTER JOIN (
+				SELECT sm_seq, COUNT(*) AS cnt FROM soccerAttendanceCheck GROUP BY sm_seq) b 
+			ON a.sm_seq=b.sm_seq WHERE sm_delete_yn = 'N' ORDER BY sm_seq DESC
+	</select>
+	
+
+
+</mapper>
