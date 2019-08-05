@@ -72,7 +72,7 @@ public class HomeController {
 		return "home";
 	}
 	
-	@RequestMapping(value = "/insertVO.do")
+	@RequestMapping(value = "/insertVO.do", method=RequestMethod.POST)
 	public String insertVO(HttpServletRequest request, MemberVO voParam ,Model model) throws Exception{	
 		logger.info("VO 형태로 파라메터 받아 보기");
 		ParameterUtil.getVoValues(voParam);
