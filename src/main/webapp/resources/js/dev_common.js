@@ -6,9 +6,6 @@ function requestAjax(url,param,type){
 		param = JSON.stringify(param);
 	}
 	
-	console.log("url",url);
-	console.log("param",param);	
-	
 	$.ajax({
 		type:"POST",  
 		url: url,   
@@ -23,3 +20,44 @@ function requestAjax(url,param,type){
 		} 
 	});
 }
+
+
+//숫자의 콤마 체크
+function commaChk(num){	
+	if(num == null){
+		return "0";
+	}else{
+		if(typeof num === 'number'){
+			num = String(num);
+		}		
+		return num.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	}	
+}	
+
+
+//특정 쿠키값 가져오기
+function getCookie(name){
+	var cookieValues = document.cookie.split(";");
+	var ckMap = {};
+
+	if(cookieValues[0] != ""){
+		cookieValues.forEach(function(item){		
+			var keyVal = item.split("=");
+			ckMap[keyVal[0].trim()] = keyVal[1].trim();
+		});
+	}
+
+	return ckMap[name];
+}
+
+
+//쿠키값 설정
+function setCookie(key,value,day){	
+	var expire = new Date();
+    expire.setDate(expire.getDate() +day);//기간
+    var cookieValues = key+'='+escape(value)+'; path=/ '; // 한글 깨짐을 막기위해 escape(cValue)를 합니다.
+	cookieValues += ';expires=' + expire.toGMTString() + ';'; 	
+	document.cookie = cookieValues;	    
+}
+
+
