@@ -1,5 +1,8 @@
-//ajax 요청
-function requestAjax(url,param,type){
+/*
+ * ajax 요청
+ * 호출 URL, 파라메터, 타입, 결과값을 사용할 함수
+*/
+function requestAjax(url,param,type,f){
 	var cType='application/x-www-form-urlencoded; charset=UTF-8';		
 	if(type=="json"){		
 		cType = 'application/json; charset=utf-8';
@@ -14,7 +17,7 @@ function requestAjax(url,param,type){
 		dataType : "json",
 		contentType:cType,
 		success:function(res){
-			console.log(res);
+			f(res);
 		}, error:function(e){
 			console.log(e);
 		} 

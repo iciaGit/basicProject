@@ -10,33 +10,6 @@
 		</layout>
 	</appender>
 	
-	<!-- FATAL > ERROR > WARN > INFO > DEBUG > TRACE    
-    <appender name="rollingFile" class="org.apache.log4j.DailyRollingFileAppender">
-	    <param name="Threshold" value="INFO"/>
-        <param name="File" value="D:/logs/all.log"/>
-        <param name="Append" value="true"/>        
-        <param name="MaxFileSize" value="10MB"/>         
-		<param name="MaxBackupIndex" value="50" />
-        <param name="DatePattern" value="'.'yyyy-MM-dd"/>
-        <layout class="org.apache.log4j.PatternLayout">
-            <param name="ConversionPattern" value="[%d{HH:mm:ss}][ %-5p](%F:%L) - %m%n" />
-        </layout>  
-    </appender>
-        
-
-    <appender name="errFile" class="org.apache.log4j.DailyRollingFileAppender">
-        <param name="Threshold" value="ERROR"/>
-        <param name="File" value="D:/logs/error.log"/>
-        <param name="Append" value="true"/>
-        <param name="MaxFileSize" value="10MB"/>    
-		<param name="MaxBackupIndex" value="50" />
-        <param name="DatePattern" value="'.'yyyy-MM-dd"/>
-        <layout class="org.apache.log4j.PatternLayout">
-            <param name="ConversionPattern" value="%d %5p [%C{1}] %m [%X{userId}]%n" />
-        </layout>  
-    </appender> 
-	-->
-	
 	<!-- Application Loggers -->
 	<logger name="com.inner">
 		<level value="INFO" />

@@ -26,7 +26,7 @@
 	<script src="./resources/js/dev_common.js"></script>
 	<script>
 		function memberList(){			
-			requestAjax('./list.ajax',{},'');
+			requestAjax('./list.ajax',{},'',function(res){console.log('res',res);});
 		}
 		
 		function insert(){
@@ -35,7 +35,7 @@
 			obj.name="숫자놀이";
 			obj.num = arr;
 			var param={"values":obj}
-			requestAjax('./ajaxInsert.ajax',param,'json');
+			requestAjax('./ajaxInsert.ajax',param,'json',function(res){console.log('res',res);});
 		}
 		
 		

@@ -41,14 +41,15 @@ public class HomeController {
 	//페이지 이동 요청 : /*.go  	
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String home(Locale locale, Model model) throws Exception{		
+	public String home(HttpServletRequest request, Model model) throws Exception{				
 		logger.info("main page GO");
 		return "home";
 	}
 	
+	
 	//리스트 불러오기
 	@RequestMapping(value = "/list.do")
-	public String list(HttpServletRequest request, Model model) {		
+	public String list(HttpServletRequest request, Model model) {				
 		model.addAttribute("list", service.getMemberList());
 		return "home";
 	}	
@@ -72,12 +73,14 @@ public class HomeController {
 		return "home";
 	}
 	
+	
 	@RequestMapping(value = "/insertVO.do", method=RequestMethod.POST)
 	public String insertVO(HttpServletRequest request, MemberVO voParam ,Model model) throws Exception{	
 		logger.info("VO 형태로 파라메터 받아 보기");
 		ParameterUtil.getVoValues(voParam);
 		return "home";
 	}
+	
 	
 	//ajax 로 데이터 받기
 	@RequestMapping(value = "/list.ajax", method = {RequestMethod.GET, RequestMethod.POST})
@@ -87,6 +90,7 @@ public class HomeController {
 
 		return map;
 	}
+	
 	
 	//json 형태로 파라메터 받기
 	@RequestMapping(value = {"/ajaxInsert.ajax","/memberInsert.ajax"}, method = {RequestMethod.GET, RequestMethod.POST})	
@@ -104,6 +108,7 @@ public class HomeController {
 		return map;
 	}
 	
+	
 	//페이지 이동
 	@RequestMapping(value= "/fileHandlerPage.go",method = RequestMethod.GET)
 	public String fileHandlerPage(HttpServletRequest request, Model model) throws Exception {			
@@ -112,6 +117,7 @@ public class HomeController {
 		return "fileHandlerPage";
 	}		
 
+	
 	//파일 업로드
 	@RequestMapping(value= {"/photoUpload.do","/fileUpload.do"},method = RequestMethod.POST)
 	public String fileUpload(MultipartFile file, HttpServletRequest request) throws Exception {			
@@ -120,6 +126,7 @@ public class HomeController {
 		return "redirect:/fileHandlerPage.go";
 	}
 	
+	
 	//파일 다운로드
 	@RequestMapping(value= {"/photoDownload.do","/fileDownload.do"}, method = {RequestMethod.GET, RequestMethod.POST})
 	public void fileDownload(HttpServletRequest request, HttpServletResponse response) throws Exception {					
@@ -127,6 +134,7 @@ public class HomeController {
 		System.out.println("DOWN LOAD FILE : "+fileName);				
 		FileUtil.fileDownload(fileName, "", root, response);
 	}
+	
 	
 	//파일 삭제
 	@RequestMapping(value= {"/photoDelete.do","/fileDelete.do"}, method = {RequestMethod.GET, RequestMethod.POST})
