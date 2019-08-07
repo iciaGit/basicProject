@@ -1,4 +1,4 @@
-package common.util.property;
+package egovframework.com.cmm.util;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;

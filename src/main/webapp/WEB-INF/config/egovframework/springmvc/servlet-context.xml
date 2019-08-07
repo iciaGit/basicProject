@@ -22,10 +22,10 @@
 	</beans:bean>
 	
 	<!-- interceptor 설정 -->
-	<beans:import resource="classpath:/config/interceptor/interceptor.xml"/>	
+	<beans:import resource="classpath:/egovframework/spring/com/interceptor.xml"/>
 	
 	<context:component-scan base-package="com.inner" />
-	<context:component-scan base-package="common.util" />
+	<context:component-scan base-package="egovframework" />
 	
 	
 </beans:beans>

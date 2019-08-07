@@ -1,4 +1,4 @@
-package common.util.file;
+package egovframework.com.cmm.util;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -17,9 +17,6 @@ import java.util.HashMap;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.web.multipart.MultipartFile;
-
-import common.util.format.StringUtil;
-import common.util.property.PropertiesUtil;
 
 public class FileUtil {
 	
@@ -120,7 +117,7 @@ public class FileUtil {
 	}
 
 
-	/*특정 공간의 파일 리스트를 가져 온다.*/
+	/*특정 공간(local)의 파일 리스트를 가져 온다.*/
 	public static ArrayList<String> getFileList(String root) {
 		ArrayList<String> fileList = new ArrayList<String>();
 		Path path = Paths.get(root);

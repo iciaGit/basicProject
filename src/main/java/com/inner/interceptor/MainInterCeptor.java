@@ -1,4 +1,4 @@
-package common.util.interceptor;
+package com.inner.interceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

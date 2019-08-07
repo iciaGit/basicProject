@@ -7,13 +7,13 @@
 
 	<bean id="sqlSessionFactofy" class="org.mybatis.spring.SqlSessionFactoryBean">		
 		<!-- 데이터 소스 사용 -->	
-		<property name="dataSource" ref="dataSource"/>
+		<property name="dataSource" ref="dataSource"/>		
 		<!-- 매퍼 위치 설정: 해당 패키지가 없으면 오류 발생 -->
-		<property name="mapperLocations" value="classpath:com/inner/**/dao/*-mapper.xml"/>				
+		<property name="mapperLocations" value="classpath:/egovframework/sqlmap/com/inner/**/*.xml"/>		
 		<!--  Type Alias 설정 -->
-		<property name="configLocation" value="classpath:/config/sqlmap/aliase.xml"/>				
+		<property name="configLocation" value="classpath:/egovframework/sqlmap/config/aliase.xml"/>
 		<!-- 세션 설정(추가) -->		
-		<property name="environment" value="classpath:/config/sqlmap/mybatis-config.xml"/>
+		<property name="environment" value="classpath:egovframework/sqlmap/config/mybatis-config.xml"/>		
 	</bean>
 	
 	<!-- 매퍼스캔 설정 -->

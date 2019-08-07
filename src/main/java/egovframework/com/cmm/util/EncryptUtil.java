@@ -1,4 +1,4 @@
-package common.util.encode;
+package egovframework.com.cmm.util;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

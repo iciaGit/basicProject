@@ -1,4 +1,4 @@
-package common.util.format;
+package egovframework.com.cmm.util;
 
 import java.net.URLDecoder;
 import java.net.URLEncoder;

@@ -13,7 +13,7 @@
 	<bean id="propertyConfiguer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations">
 			<list>
-				<value>classpath:/config/props/*.properties</value>
+				<value>classpath:/egovframework/egovProps/*.properties</value>
 			</list>
 		</property>
 	</bean>
