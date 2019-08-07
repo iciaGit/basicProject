@@ -1,4 +1,4 @@
-package egovframework.com.cmm.util;
+package egovframework.com.util;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -25,7 +25,7 @@ public class PropertiesUtil {
 		String value = "";
 		InputStream fis = null;		
 		
-		String path = prefix+"config/props/"+propName+".properties";		
+		String path = prefix+"egovframework/egovProps/"+propName+".properties";		
 		try {
 			Properties prop = new Properties();
 			fis = new FileInputStream(path);

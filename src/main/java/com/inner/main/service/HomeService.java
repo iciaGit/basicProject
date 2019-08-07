@@ -2,6 +2,7 @@ package com.inner.main.service;
 
 import java.util.ArrayList;
 
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -10,14 +11,13 @@ import org.springframework.transaction.annotation.Transactional;
 import com.inner.main.dao.MemberInter;
 import com.inner.main.vo.MemberVO;
 
-import egovframework.com.cmm.util.FileUtil;
+import egovframework.com.util.FileUtil;
 
 
 @Service
 public class HomeService {
 	
 	@Autowired MemberInter memberInter;
-
 	/*
 	READ UNCOMMITTED 다른 트랜잭션에서 COMMIT되지 않은 데이터들도 읽어올 수 있는 level
 	READ COMMITTED 다른 트랜잭션에서 COMMIT 된 데이터만 읽어올 수 있는 level	
@@ -27,6 +27,7 @@ public class HomeService {
 	
 	@Transactional(isolation = Isolation.READ_COMMITTED)
 	public ArrayList<MemberVO> getMemberList() {
+		//return null;
 		return memberInter.getMemberList();		
 	}
 

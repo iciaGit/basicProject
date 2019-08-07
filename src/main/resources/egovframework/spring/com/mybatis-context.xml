@@ -13,11 +13,11 @@
 		<!--  Type Alias 설정 -->
 		<property name="configLocation" value="classpath:/egovframework/sqlmap/config/aliase.xml"/>
 		<!-- 세션 설정(추가) -->		
-		<property name="environment" value="classpath:egovframework/sqlmap/config/mybatis-config.xml"/>		
+		<property name="environment" value="classpath:/egovframework/sqlmap/config/mybatis-env-config.xml"/>		
 	</bean>
 	
 	<!-- 매퍼스캔 설정 -->
-	<mybatis-spring:scan base-package="com.inner" />
+	<mybatis-spring:scan base-package="com.inner"/>
 	
 	<!-- 마이바티스 세션 템플릿 사용 설정 -->
 	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">

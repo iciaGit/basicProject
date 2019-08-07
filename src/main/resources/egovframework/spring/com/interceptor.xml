@@ -13,7 +13,7 @@
 			<mvc:interceptor>
 				<mvc:mapping path="/**"/>
  				<mvc:exclude-mapping path="/*.ajax"/>  
-				<bean class="com.inner.interceptor.MainInterCeptor"/>
+				<bean class="egovframework.com.interceptor.MainInterCeptor"/>
 			</mvc:interceptor>				
 		</mvc:interceptors>
 		

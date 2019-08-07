@@ -6,11 +6,10 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
-
-	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 	
-	<!-- Enables the Spring MVC @Controller programming model -->
-	<annotation-driven />
+	<!-- 어노테이션 범위 설정 	 -->
+	<annotation-driven/>
+	<context:component-scan base-package="com.inner"/>
 
 	<!-- 리소스 관리 -->
 	<resources mapping="/resources/**" location="/resources/" />
@@ -24,8 +23,7 @@
 	<!-- interceptor 설정 -->
 	<beans:import resource="classpath:/egovframework/spring/com/interceptor.xml"/>
 	
-	<context:component-scan base-package="com.inner" />
-	<context:component-scan base-package="egovframework" />
+
 	
 	
 </beans:beans>

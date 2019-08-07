@@ -1,4 +1,4 @@
-package egovframework.com.cmm.util;
+package egovframework.com.util;
 
 import java.util.HashMap;
 

@@ -1,4 +1,4 @@
-package com.inner.interceptor;
+package egovframework.com.interceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
