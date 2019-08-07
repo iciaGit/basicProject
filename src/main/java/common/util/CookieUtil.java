@@ -1,4 +1,4 @@
-package common.util.request;
+package common.util;
 
 import java.net.URLDecoder;
 import java.net.URLEncoder;

@@ -1,4 +1,4 @@
-package common.util.file;
+package common.util;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -17,9 +17,6 @@ import java.util.HashMap;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.web.multipart.MultipartFile;
-
-import common.util.format.StringUtil;
-import common.util.property.PropertiesUtil;
 
 public class FileUtil {
 	

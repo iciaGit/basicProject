@@ -13,7 +13,7 @@
 			<mvc:interceptor>
 				<mvc:mapping path="/**"/>
  				<mvc:exclude-mapping path="/*.ajax"/>  
-				<bean class="common.util.interceptor.MainInterCeptor"/>
+				<bean class="common.interceptor.MainInterCeptor"/>
 			</mvc:interceptor>				
 		</mvc:interceptors>
 		

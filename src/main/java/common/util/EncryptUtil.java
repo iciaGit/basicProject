@@ -1,4 +1,4 @@
-package common.util.encode;
+package common.util;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.inner.main.dao.MemberInter;
 import com.inner.main.vo.MemberVO;
 
-import common.util.file.FileUtil;
+import common.util.FileUtil;
 
 
 @Service

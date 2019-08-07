@@ -21,9 +21,9 @@ import org.springframework.web.multipart.MultipartFile;
 import com.inner.main.service.HomeService;
 import com.inner.main.vo.MemberVO;
 
-import common.util.etc.ParameterUtil;
-import common.util.file.FileUtil;
-import common.util.property.PropertiesUtil;
+import common.util.FileUtil;
+import common.util.ParameterUtil;
+import common.util.PropertiesUtil;
 
 
 @Controller
