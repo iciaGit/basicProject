@@ -10,34 +10,41 @@ import com.ibm.icu.util.ChineseCalendar;
 
 public class DateUtil {
 
-	private static Calendar cal = Calendar.getInstance(Locale.KOREA);
+	//calendar 객체는 필요할때 생성 하는 걸로 해야 오류가 없다.
+	//private static Calendar cal = Calendar.getInstance(Locale.KOREA);
 	private static SimpleDateFormat sdf =null;
 	
 	//현재 연 구하기
-	public static int getcurrentYear() {
+	public static int getcurrentYear(Calendar cal) {
 		return cal.get(Calendar.YEAR);
 	}
 	
 	//현재 월 구하기
-	public static int getcurrentMonth() {
+	public static int getcurrentMonth(Calendar cal) {
 		return cal.get(Calendar.MONTH)+1;
 	}
 	
 	//현재 일 구하기
-	public static int getcurrentDay() {		
+	public static int getcurrentDay(Calendar cal) {		
 		return cal.get(Calendar.DAY_OF_MONTH);
 	}
 	
 	//오늘 년-월-일 반환
-	public static String getCurrentDate() {		
-		String year = String.valueOf(getcurrentYear());
-		String month = String.valueOf(getcurrentMonth());
-		String day = String.valueOf(getcurrentDay());		
-		if(month.length()<2) {month = "0"+month;}
-		if(day.length()<2) {day = "0"+day;}				
+	public static String getCurrentDate(Calendar cal) {		
+		String year = String.valueOf(getcurrentYear(cal));
+		String month = String.valueOf(getcurrentMonth(cal));
+		String day = String.valueOf(getcurrentDay(cal));
+		
+		if(month.length()<2) {
+			month = "0"+month; 
+		}
+		
+		if(day.length()<2) {
+			day = "0"+day; 
+		}
+				
 		return year+"-"+month+"-"+day;
-	}	
-
+	}
 
 	/**
 	 * 입력받은 양력일자를 변환하여 음력일자로 반환
