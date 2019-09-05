@@ -49,7 +49,6 @@ function getCookie(name){
 			ckMap[keyVal[0].trim()] = keyVal[1].trim();
 		});
 	}
-
 	return ckMap[name];
 }
 
@@ -63,4 +62,16 @@ function setCookie(key,value,day){
 	document.cookie = cookieValues;	    
 }
 
-
+//날짜 계산(며칠 후 또는 전, 구분자)
+function getDate(num,delimiter){		
+    var date = new Date();	    
+    date.setDate(date.getDate() +(num));	 
+    var sYear = date.getFullYear();
+    var sMonth = date.getMonth() + 1;
+    var sDay = date.getDate();	 
+    sMonth = "" + sMonth;
+    sMonth = (sMonth.length == 1) ? "0"+sMonth : sMonth
+    sDay = "" + sDay;
+    sDay = (sDay.length == 1) ? "0"+sDay : sDay	    
+    return sYear + delimiter + sMonth + delimiter + sDay;
+}
