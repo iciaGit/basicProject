@@ -75,3 +75,13 @@ function getDate(num,delimiter){
     sDay = (sDay.length == 1) ? "0"+sDay : sDay	    
     return sYear + delimiter + sMonth + delimiter + sDay;
 }
+
+//현재 페이지 정보
+function getLocationInfo(lo){
+	var info={};
+	info["protocol"] = lo.protocol;
+	info["host"] = lo.hostname;
+	info["path"] = lo.pathname;
+	info["param"] = lo.search;
+	return info;
+}
