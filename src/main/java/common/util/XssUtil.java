@@ -1,4 +1,4 @@
-package egovframework.com.util;
+package common.util;
 
 public class XssUtil {
 	
