@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -135,6 +136,15 @@ public class HomeController {
 		FileUtil.fileDownload(fileName, "", root, response);
 	}
 	
+	//파일 스트리밍
+	@RequestMapping(value= "/fileStream/{fileName}/{ext}")
+	public void fileStream(HttpServletRequest request, HttpServletResponse response, 
+			@PathVariable("fileName") String fileName, @PathVariable("ext") String ext) throws Exception {					
+		
+		fileName += "."+ext;
+		System.out.println("streaming file : "+fileName);		
+		FileUtil.fileStreaming(root, fileName, request, response);
+	}
 	
 	//파일 삭제
 	@RequestMapping(value= {"/photoDelete.do","/fileDelete.do"}, method = {RequestMethod.GET, RequestMethod.POST})
@@ -145,6 +155,7 @@ public class HomeController {
 		return "redirect:/fileHandlerPage.go";
 	}
 	
+
 
 	
 }

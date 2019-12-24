@@ -40,6 +40,8 @@
 			업로드 할 파일 : <input type="file" name="file"/>
 			<input type="submit" value="업로드"/>
 		</form>
+		
+		<video width="320" height="240" controls="controls"><source src="./fileStream/KLID_KOREAN/mp4" type="video/mp4"></video>
 
 	</body>
 	<script src="./resources/js/dev_common.js"></script>

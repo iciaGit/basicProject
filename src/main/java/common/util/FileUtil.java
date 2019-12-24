@@ -1,7 +1,13 @@
 package common.util;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.RandomAccessFile;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.DirectoryStream;
@@ -14,6 +20,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -93,6 +100,89 @@ public class FileUtil {
 		
 	}
 	
+	/**
+	 * 파일 스트리밍
+	 * @param root
+	 * @param fileName
+	 * @param req 
+	 * @param response
+	 * @throws IOException 
+	 */
+	public static void fileStreaming(String root, String fileName, HttpServletRequest req, HttpServletResponse resp) {
+
+		//파일의 특정 위치부터 읽어들일 수 있도록 하기 위해 RandomAccessFile 클래스 가용
+		RandomAccessFile rFile = null;
+		BufferedOutputStream bos = null;
+		try {
+			rFile = new RandomAccessFile(root+"/"+fileName, "r");
+		
+		
+		//브라우저에 따라 range 형식이 다른데, 기본 형식은 "bytes= {start}-{end}" 형식이다.
+		//range가 null이거나, reqStart가 0이고 end가 없을 경우 전체 요청이다.
+		String range = req.getHeader("range");		
+		System.out.println("range : "+range);
+		long fileSize = rFile.length();//전송 파일의 전체 사이즈
+		long start = 0;
+		long end = fileSize-1;			
+		
+		//전송 시작과 종료 값을 만든다.
+		if(range != null) {
+			String[] parts = range.replace("bytes=","").split("-");				
+			start = Long.parseLong(parts[0]);
+			if(parts.length>1) {
+				end = Long.parseLong(parts[1]);
+			}			
+		}					
+		
+		long partSize = (end-start)+1;//전송하려는 사이즈	
+				
+        /*
+        'Content-Range': 'bytes 0-486003670/486003671',//시작-끝/전체크기
+        'Accept-Ranges': 'bytes',
+        'Content-Length': 483251159,//전송하려는 전체 사이즈
+        'Content-Type': 'video/mp4',
+        */
+		System.out.println("'Content-Type': 'video/mp4'");
+		System.out.println("'Content-Range': 'bytes "+start+"-"+end+"/"+fileSize+"'");
+		System.out.println("'Accept-Ranges': 'bytes'");
+		System.out.println("'Content-Length': "+partSize);
+		
+		resp.reset();//전송 시작
+		resp.setStatus(206);//206 부분 전송, 200  전송 완료
+		resp.setContentType("video/mp4");
+		resp.setHeader("Content-Range",  "bytes "+start+"-"+end+"/"+fileSize);
+		resp.setHeader("Accept-Ranges",  "bytes");
+		resp.setHeader("Content-Length", ""+partSize);		
+
+			
+		bos = new BufferedOutputStream(resp.getOutputStream());			
+		byte[] buff = new byte[1024];	
+		/*특정 위치에서 부터 전송 시작*/
+		rFile.seek(start);				
+		while(partSize>0) {
+			int block = buff.length < partSize ? buff.length : (int)partSize;
+			int len = rFile.read(buff, 0, block);			
+			bos.write(buff,0,len);
+			partSize -= block;
+			System.out.println("remain size: "+partSize+", pointer: "+rFile.getFilePointer());
+		}	
+		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			System.out.println("자원 반납");
+			try {
+				bos.flush();
+				bos.close();
+				rFile.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}	
+		}
+		
+
+	}
+	
 	/*파일 삭제*/
 	public static String fileDelete(String root, String delFile) {		
 		File file = new File(root+"/"+delFile);
@@ -132,6 +222,9 @@ public class FileUtil {
 		}		
 		return fileList;		
 	}
+
+
+
 
 	
 	
