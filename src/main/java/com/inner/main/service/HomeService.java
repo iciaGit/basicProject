@@ -32,7 +32,8 @@ public class HomeService {
 
 	//특정 폴더의 파일을 모두 가져 온다.
 	public ArrayList<String> getFilList(String root) {		
-		return FileUtil.getFileList(root);
+		FileUtil fileUtil = new FileUtil();		
+		return fileUtil.getFileList(root);
 	}
 
 }

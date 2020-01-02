@@ -25,6 +25,8 @@ import com.inner.main.vo.MemberVO;
 import common.util.FileUtil;
 import common.util.ParameterUtil;
 import common.util.PropertiesUtil;
+import common.util.RestMsgUtil;
+import common.util.StringUtil;
 
 
 @Controller
@@ -45,16 +47,14 @@ public class HomeController {
 	public String home(HttpServletRequest request, Model model) throws Exception{				
 		logger.info("main page GO");
 		return "home";
-	}
-	
+	}	
 	
 	//리스트 불러오기
 	@RequestMapping(value = "/list.do")
 	public String list(HttpServletRequest request, Model model) {				
 		model.addAttribute("list", service.getMemberList());
 		return "home";
-	}	
-	
+	}		
 	
 	@RequestMapping(value = "/propRead.do", method = RequestMethod.GET)
 	public String propRead(HttpServletRequest request, Model model) throws Exception{		
@@ -62,8 +62,7 @@ public class HomeController {
 		logger.info("property - Globlas.url : "+url);
 		return "home";
 	}
-	
-	
+		
 	@RequestMapping(value = "/propWrite.do", method = RequestMethod.GET)
 	public String propWrite(HttpServletRequest request, Model model) throws Exception{	
 		HashMap<String, String> map = new HashMap<String, String>();
@@ -73,16 +72,14 @@ public class HomeController {
 		PropertiesUtil.setProperty("user",map);		//프로퍼티 파일 생성
 		return "home";
 	}
-	
-	
+		
 	@RequestMapping(value = "/insertVO.do", method=RequestMethod.POST)
 	public String insertVO(HttpServletRequest request, MemberVO voParam ,Model model) throws Exception{	
 		logger.info("VO 형태로 파라메터 받아 보기");
 		ParameterUtil.getVoValues(voParam);
 		return "home";
 	}
-	
-	
+		
 	//ajax 로 데이터 받기
 	@RequestMapping(value = "/list.ajax", method = {RequestMethod.GET, RequestMethod.POST})
 	public @ResponseBody HashMap<String,Object> listAjax(HttpServletRequest request) throws Exception{	
@@ -91,8 +88,7 @@ public class HomeController {
 
 		return map;
 	}
-	
-	
+		
 	//json 형태로 파라메터 받기
 	@RequestMapping(value = {"/ajaxInsert.ajax","/memberInsert.ajax"}, method = {RequestMethod.GET, RequestMethod.POST})	
 	public @ResponseBody HashMap<String, Object> authorGrant(HttpServletRequest request, 
@@ -108,8 +104,7 @@ public class HomeController {
 		map.put("msg", "success");
 		return map;
 	}
-	
-	
+		
 	//페이지 이동
 	@RequestMapping(value= "/fileHandlerPage.go",method = RequestMethod.GET)
 	public String fileHandlerPage(HttpServletRequest request, Model model) throws Exception {			
@@ -117,33 +112,33 @@ public class HomeController {
 		model.addAttribute("fileList", service.getFilList(root));
 		return "fileHandlerPage";
 	}		
-
-	
+		
 	//파일 업로드
 	@RequestMapping(value= {"/photoUpload.do","/fileUpload.do"},method = RequestMethod.POST)
 	public String fileUpload(MultipartFile file, HttpServletRequest request) throws Exception {			
-		HashMap<String, String> map = FileUtil.fileUpload(file, root);
+		FileUtil fileUtil = new FileUtil();		
+		HashMap<String, String> map = fileUtil.fileUpload(file, root);
 		ParameterUtil.getMapValues(map);//map 안의 파라메터 값 확인		
 		return "redirect:/fileHandlerPage.go";
 	}
-	
-	
+		
 	//파일 다운로드
 	@RequestMapping(value= {"/photoDownload.do","/fileDownload.do"}, method = {RequestMethod.GET, RequestMethod.POST})
 	public void fileDownload(HttpServletRequest request, HttpServletResponse response) throws Exception {					
 		String fileName = request.getParameter("fileName");
-		System.out.println("DOWN LOAD FILE : "+fileName);				
-		FileUtil.fileDownload(fileName, "", root, response);
+		System.out.println("DOWN LOAD FILE : "+fileName);		
+		FileUtil fileUtil = new FileUtil();	
+		fileUtil.fileDownload(fileName, "", root, response);
 	}
 	
 	//파일 스트리밍
 	@RequestMapping(value= "/fileStream/{fileName}/{ext}")
 	public void fileStream(HttpServletRequest request, HttpServletResponse response, 
-			@PathVariable("fileName") String fileName, @PathVariable("ext") String ext) throws Exception {					
-		
+			@PathVariable("fileName") String fileName, @PathVariable("ext") String ext) throws Exception {		
 		fileName += "."+ext;
 		System.out.println("streaming file : "+fileName);		
-		FileUtil.fileStreaming(root, fileName, request, response);
+		FileUtil fileUtil = new FileUtil();
+		fileUtil.fileStreaming(root, fileName, request, response);
 	}
 	
 	//파일 삭제
@@ -151,10 +146,29 @@ public class HomeController {
 	public String fileDelete(HttpServletRequest request, HttpServletResponse response) throws Exception {					
 		String fileName = request.getParameter("fileName");
 		System.out.println("DOWN LOAD FILE : "+fileName);		
-		FileUtil.fileDelete(root, fileName);
+		FileUtil fileUtil = new FileUtil();
+		fileUtil.fileDelete(root, fileName);
 		return "redirect:/fileHandlerPage.go";
 	}
 	
+	//다음 카카오 검색
+	@RequestMapping(value= "/daum/search/{keyword}", method = {RequestMethod.GET, RequestMethod.POST})
+	public @ResponseBody HashMap<String,Object> daumSearch(@PathVariable(value="keyword") String keyword,
+			HttpServletRequest request, HttpServletResponse response) throws Exception {					
+		HashMap<String,Object> result = new HashMap<String, Object>();
+		System.out.println("keyword : "+keyword);
+		RestMsgUtil msgUtil = new RestMsgUtil();
+		ArrayList<String> urls = new ArrayList<String>();
+		urls.add("https://dapi.kakao.com/v2/search/web?");
+		urls.add("query="+keyword);
+		urls.add("&sort=recency");
+		urls.add("&size=50");
+		HashMap<String, String> header = new HashMap<String, String>();
+		header.put("Authorization", "KakaoAK 222c735050d3b469d013122054f5d0fa");
+		String msg = msgUtil.sendMsg(urls, header, "GET");		
+		result.put("result", msg);
+		return result;
+	}
 
 
 	

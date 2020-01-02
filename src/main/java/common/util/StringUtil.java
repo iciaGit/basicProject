@@ -3,8 +3,13 @@ package common.util;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 public class StringUtil {
 	
@@ -53,5 +58,27 @@ public class StringUtil {
 		}						
 		return new java.sql.Date(date.getTime());
 	}
+	
+	/**
+	 *  json문자를 arraylist로 반환
+	 * @param jsonStr
+	 * @return ArrayList
+	 */
+	public static ArrayList<HashMap<String, Object>> getJsonToList(String jsonStr) {
+		Gson gson = new Gson();
+		ArrayList<HashMap<String, Object>> list = gson.fromJson(jsonStr, new TypeToken<ArrayList<HashMap<String, String>>>(){}.getType());
+		return list;
+		
+	}	
+	
+	public static HashMap<String, String> getJsonToMap(String jsonStr){
+		Gson gson = new Gson();
+		HashMap<String, String> map = gson.fromJson(jsonStr, new TypeToken<HashMap<String, String>>(){}.getType());
+		return map;
+	}
+
+
+	
+	
 
 }

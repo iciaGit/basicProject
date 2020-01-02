@@ -1,19 +1,10 @@
 package common.util;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.io.RandomAccessFile;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.nio.file.DirectoryStream;
-import java.nio.file.FileStore;
-import java.nio.file.FileSystem;
-import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -32,7 +23,7 @@ public class FileUtil {
 	 * Java 1.8 환경에서 작동
 	 * java.nio 를 지원 하지 않는 Java 1.7 미만 버전에서는 Stream 처리로 변경 해서 사용 해야 함
 	 * */	
-	public static HashMap<String,String> fileUpload(MultipartFile file, String root) {				
+	public HashMap<String,String> fileUpload(MultipartFile file, String root) {				
 
 		HashMap<String, String> map = new HashMap<String, String>();	
 		try {
@@ -66,7 +57,7 @@ public class FileUtil {
 	 * @param root - 경로
 	 * @param resp
 	 */
-	public static void fileDownload(String transName, String oriName, String root, HttpServletResponse resp) {	
+	public void fileDownload(String transName, String oriName, String root, HttpServletResponse resp) {	
 		
 		try {
 			//파일을 특정 경로에서 가져온다.
@@ -108,7 +99,7 @@ public class FileUtil {
 	 * @param response
 	 * @throws IOException 
 	 */
-	public static void fileStreaming(String root, String fileName, HttpServletRequest req, HttpServletResponse resp) {
+	public void fileStreaming(String root, String fileName, HttpServletRequest req, HttpServletResponse resp) {
 
 		//파일의 특정 위치부터 읽어들일 수 있도록 하기 위해 RandomAccessFile 클래스 가용
 		RandomAccessFile rFile = null;
@@ -117,55 +108,54 @@ public class FileUtil {
 			rFile = new RandomAccessFile(root+"/"+fileName, "r");
 		
 		
-		//브라우저에 따라 range 형식이 다른데, 기본 형식은 "bytes= {start}-{end}" 형식이다.
-		//range가 null이거나, reqStart가 0이고 end가 없을 경우 전체 요청이다.
-		String range = req.getHeader("range");		
-		System.out.println("range : "+range);
-		long fileSize = rFile.length();//전송 파일의 전체 사이즈
-		long start = 0;
-		long end = fileSize-1;			
+			//브라우저에 따라 range 형식이 다른데, 기본 형식은 "bytes= {start}-{end}" 형식이다.
+			//range가 null이거나, reqStart가 0이고 end가 없을 경우 전체 요청이다.
+			String range = req.getHeader("range");		
+			System.out.println("range : "+range);
+			long fileSize = rFile.length();//전송 파일의 전체 사이즈
+			long start = 0;
+			long end = fileSize-1;			
 		
-		//전송 시작과 종료 값을 만든다.
-		if(range != null) {
-			String[] parts = range.replace("bytes=","").split("-");				
-			start = Long.parseLong(parts[0]);
-			if(parts.length>1) {
-				end = Long.parseLong(parts[1]);
-			}			
-		}					
+			//전송 시작과 종료 값을 만든다.
+			if(range != null) {
+				String[] parts = range.replace("bytes=","").split("-");				
+				start = Long.parseLong(parts[0]);
+				if(parts.length>1) {
+					end = Long.parseLong(parts[1]);
+				}			
+			}					
 		
-		long partSize = (end-start)+1;//전송하려는 사이즈	
+			long partSize = (end-start)+1;//전송하려는 사이즈	
 				
-        /*
-        'Content-Range': 'bytes 0-486003670/486003671',//시작-끝/전체크기
-        'Accept-Ranges': 'bytes',
-        'Content-Length': 483251159,//전송하려는 전체 사이즈
-        'Content-Type': 'video/mp4',
-        */
-		System.out.println("'Content-Type': 'video/mp4'");
-		System.out.println("'Content-Range': 'bytes "+start+"-"+end+"/"+fileSize+"'");
-		System.out.println("'Accept-Ranges': 'bytes'");
-		System.out.println("'Content-Length': "+partSize);
+	        /*
+	        'Content-Range': 'bytes 0-486003670/486003671',//시작-끝/전체크기
+	        'Accept-Ranges': 'bytes',
+	        'Content-Length': 483251159,//전송하려는 전체 사이즈
+	        'Content-Type': 'video/mp4',
+	        */
+			System.out.println("'Content-Type': 'video/mp4'");
+			System.out.println("'Content-Range': 'bytes "+start+"-"+end+"/"+fileSize+"'");
+			System.out.println("'Accept-Ranges': 'bytes'");
+			System.out.println("'Content-Length': "+partSize);
 		
-		resp.reset();//전송 시작
-		resp.setStatus(206);//206 부분 전송, 200  전송 완료
-		resp.setContentType("video/mp4");
-		resp.setHeader("Content-Range",  "bytes "+start+"-"+end+"/"+fileSize);
-		resp.setHeader("Accept-Ranges",  "bytes");
-		resp.setHeader("Content-Length", ""+partSize);		
-
-			
-		bos = new BufferedOutputStream(resp.getOutputStream());			
-		byte[] buff = new byte[1024];	
-		/*특정 위치에서 부터 전송 시작*/
-		rFile.seek(start);				
-		while(partSize>0) {
-			int block = buff.length < partSize ? buff.length : (int)partSize;
-			int len = rFile.read(buff, 0, block);			
-			bos.write(buff,0,len);
-			partSize -= block;
-			System.out.println("remain size: "+partSize+", pointer: "+rFile.getFilePointer());
-		}	
+			resp.reset();//전송 시작
+			resp.setStatus(206);//206 부분 전송, 200  전송 완료
+			resp.setContentType("video/mp4");
+			resp.setHeader("Content-Range",  "bytes "+start+"-"+end+"/"+fileSize);
+			resp.setHeader("Accept-Ranges",  "bytes");
+			resp.setHeader("Content-Length", ""+partSize);		
+				
+			bos = new BufferedOutputStream(resp.getOutputStream());			
+			byte[] buff = new byte[1024];	
+			/*특정 위치에서 부터 전송 시작*/
+			rFile.seek(start);				
+			while(partSize>0) {
+				int block = buff.length < partSize ? buff.length : (int)partSize;
+				int len = rFile.read(buff, 0, block);			
+				bos.write(buff,0,len);
+				partSize -= block;
+				System.out.println("remain size: "+partSize+", pointer: "+rFile.getFilePointer());
+			}	
 		
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -178,13 +168,12 @@ public class FileUtil {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}	
-		}
-		
+		}		
 
 	}
 	
 	/*파일 삭제*/
-	public static String fileDelete(String root, String delFile) {		
+	public String fileDelete(String root, String delFile) {		
 		File file = new File(root+"/"+delFile);
 		String msg="이미 삭제된 파일 입니다.";
 		if(file.exists()) {//삭제할 파일이 존재 한다면
@@ -197,7 +186,7 @@ public class FileUtil {
 	
 
 	/*폴더 생성*/
-	private static void makeDir(String path) {
+	private void makeDir(String path) {
 		System.out.println(path);
 		File dir = new File(path);
 		if(!dir.isDirectory()){
@@ -208,7 +197,7 @@ public class FileUtil {
 
 
 	/*특정 공간의 파일 리스트를 가져 온다.*/
-	public static ArrayList<String> getFileList(String root) {
+	public ArrayList<String> getFileList(String root) {
 		ArrayList<String> fileList = new ArrayList<String>();
 		Path path = Paths.get(root);
 		DirectoryStream<Path> list = null;

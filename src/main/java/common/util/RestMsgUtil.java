@@ -17,7 +17,7 @@ public class RestMsgUtil {
 	 * @param method:String
 	 * @return result:String
 	 */
-	public static String sendMsg(ArrayList<String> urls, HashMap<String, String> header, String method) {
+	public String sendMsg(ArrayList<String> urls, HashMap<String, String> header, String method) {
 		StringBuffer sb = new StringBuffer();//url 사용 버퍼
 		String readLine = "";//읽어들일 문자 변수
 		BufferedReader reader = null;//버퍼리더
@@ -26,6 +26,7 @@ public class RestMsgUtil {
 		for(String url : urls) {	sb.append(url);}//url 조합
 		
 		try {
+			System.out.println("request URL : "+sb.toString());
 			URL url = new URL(sb.toString());		
 			HttpURLConnection con = (HttpURLConnection)url.openConnection();			
 			method = method.toUpperCase();			
@@ -50,6 +51,7 @@ public class RestMsgUtil {
 			
 			result = sb.toString();
 			if(con.getResponseCode()!=200) {
+				System.out.println("fail message : "+result);
 				result = "failCode : "+con.getResponseCode();
 			}
 						
