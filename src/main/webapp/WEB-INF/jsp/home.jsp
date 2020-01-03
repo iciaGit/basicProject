@@ -14,13 +14,13 @@
 		<button onclick="insert()">복잡한 값 넣기</button>		
 		<p><a href="fileHandlerPage.go">파일 제어 페이지 이동</a></p>
 		<form action="./insertVO.do" method="post">
-		<p>이름 : <input type="text" name="sm_name" value=""/></p>
-		<p>폰 : <input type="text" name="sm_phone" value=""/></p>
-		<p>생년 : <input type="text" name="sm_year" value=""/></p>
-		<p>메모 : <input type="text" name="sm_memo" value=""/></p>
+			<p>이름 : <input type="text" name="sm_name" value=""/></p>
+			<p>폰 : <input type="text" name="sm_phone" value=""/></p>
+			<p>생년 : <input type="text" name="sm_year" value=""/></p>
+			<p>메모 : <input type="text" name="sm_memo" value=""/></p>
 		<input type="submit" value="VO 형태로 전송"/>
 		</form>
-		
+		<p><a href="pdfViewer" target="_blank">OWASP.PDF 열기</a></p>
 		
 	</body>
 	<script src="./resources/js/dev_common.js"></script>

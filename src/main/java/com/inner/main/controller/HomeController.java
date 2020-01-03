@@ -152,7 +152,7 @@ public class HomeController {
 	}
 	
 	//다음 카카오 검색
-	@RequestMapping(value= "/daum/search/{keyword}", method = {RequestMethod.GET, RequestMethod.POST})
+	@RequestMapping(value= "daum/search/{keyword}", method = {RequestMethod.GET, RequestMethod.POST})
 	public @ResponseBody HashMap<String,Object> daumSearch(@PathVariable(value="keyword") String keyword,
 			HttpServletRequest request, HttpServletResponse response) throws Exception {					
 		HashMap<String,Object> result = new HashMap<String, Object>();
@@ -166,10 +166,17 @@ public class HomeController {
 		HashMap<String, String> header = new HashMap<String, String>();
 		header.put("Authorization", "KakaoAK 222c735050d3b469d013122054f5d0fa");
 		String msg = msgUtil.sendMsg(urls, header, "GET");		
+		System.out.println(msg);
 		result.put("result", msg);
 		return result;
 	}
-
+	
+	//pdf viewer 열기
+	@RequestMapping(value= "pdfViewer")
+	public String pdfViewer(Model model) {
+		model.addAttribute("filePath","OWASP.pdf");
+		return "pdfViewer";
+	}
 
 	
 }
