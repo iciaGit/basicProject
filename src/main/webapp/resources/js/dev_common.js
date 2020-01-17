@@ -77,11 +77,20 @@ function getDate(num,delimiter){
 }
 
 //현재 페이지 정보
+//현재 페이지 정보
 function getLocationInfo(lo){
 	var info={};
 	info["protocol"] = lo.protocol;
 	info["host"] = lo.hostname;
 	info["path"] = lo.pathname;
-	info["param"] = lo.search;
+	info["param"] = {};
+	
+	var params = lo.search.substring(lo.search.indexOf('?')+1);
+	if(params != null && params != ""){		
+		params.split('&').forEach(function(item){
+			var kv = item.split('=');
+			info["param"][kv[0]] = kv[1];
+		});
+	}	
 	return info;
 }
