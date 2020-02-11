@@ -21,7 +21,14 @@
 		<input type="submit" value="VO 형태로 전송"/>
 		</form>
 		<p><a href="pdfViewer" target="_blank">OWASP.PDF 열기</a></p>
-		
+		<form action="./calcDate">
+			<input type="text" name="target" value="20200203"/>부터
+			<input type="text" name="day" value=""/>일 (전은 -)후		
+			<input type="submit"	value="계산"/>
+		</form>
+		<span>${target} 으로 부터 ${day} 를 더하면 ${date} 이 된다.</span>
+		<p><a href="./naverEditorSample">네이버 에디터 편집 하기</a></p>
+
 	</body>
 	<script src="./resources/js/dev_common.js"></script>
 	<script>

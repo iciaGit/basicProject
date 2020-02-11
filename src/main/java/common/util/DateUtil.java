@@ -1,5 +1,6 @@
 package common.util;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -55,7 +56,6 @@ public class DateUtil {
 	public static Map<String, String> toLunar(String sDate) {
 		
 		String fullDate[] = sDate.split("-");
-
 
 		Map<String, String> hm = new HashMap<String, String>();
 		hm.put("day", "");
@@ -135,6 +135,30 @@ public class DateUtil {
 		String retDay = (pad2Str + dayStr).substring(dayStr.length());
 
 		return retYear+"-"+retMonth+"-"+retDay;
+	}
+	
+	/**
+	 * 
+	 * @param targetDate - 기준 날짜 <예> 20200203
+	 * @param day - 계산할 날짜(23 | -30)
+	 * @return String
+	 */
+	public static String clacDate(String targetDate, int day) {
+		Calendar cal = Calendar.getInstance();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd",Locale.getDefault());
+		
+		try {
+			cal.setTime(sdf.parse(targetDate));
+		} catch (ParseException e) {
+			throw new IllegalArgumentException("Invalid date format: " + targetDate);
+		}
+		
+		if (day != 0) {
+			cal.add(Calendar.DATE, day);
+		}
+		
+		
+		return sdf.format(cal.getTime());
 	}
 
 }

@@ -1,8 +1,11 @@
 package common.util;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.RandomAccessFile;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
@@ -213,8 +216,53 @@ public class FileUtil {
 	}
 
 
-
-
-	
+	public void editorPhotoUpload(HttpServletRequest request, HttpServletResponse response, String root) {
+		try {
+			//1. 저장경로 만들기(저장 경로는 차후 변경 가능)
+			System.out.println("root path : "+root);
+			String path  = root+"resources/upload/";
+			
+			//2. 폴더 없으면 만들기
+			makeDir(path);
+			
+			//3. 파일명 추출
+			String oriFileName = request.getHeader("file-name");
+			System.out.println("oriFileName : "+oriFileName);
+			
+			//4. 새 파일명 생성
+			String ext = oriFileName.substring(oriFileName.lastIndexOf(".")+1);//확장자 추출
+			String newFileName = System.currentTimeMillis()+"."+ext;//새 파일 이름
+			
+			//5. 파일 추출
+			BufferedInputStream bis = new BufferedInputStream(request.getInputStream());
+			BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(path+newFileName));
+			byte[] arr = new byte[Integer.parseInt(request.getHeader("file-size"))];
+			
+			//6. 서버에 저장
+			int data;
+			int size = 0;
+			while((data = bis.read())!=-1) {
+				bos.write(data);
+				size++;
+			}			
+						
+			bos.flush();
+						
+			//정보 출력
+			String sFileInfo = "&bNewLine=true";
+			//img 태그의 title속성을 원본 파일명으로 적용
+			sFileInfo += "&sFileName="+oriFileName;
+			sFileInfo += "&sFileURL="+"/upload/"+newFileName;
+			PrintWriter print = response.getWriter();
+			print.print(sFileInfo);
+			print.flush();			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}	
 	
 }
+
+
+

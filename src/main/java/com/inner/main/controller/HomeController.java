@@ -16,12 +16,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.inner.main.service.HomeService;
 import com.inner.main.vo.MemberVO;
 
+import common.util.DateUtil;
 import common.util.FileUtil;
 import common.util.ParameterUtil;
 import common.util.PropertiesUtil;
@@ -177,6 +179,33 @@ public class HomeController {
 		model.addAttribute("filePath","OWASP.pdf");
 		return "pdfViewer";
 	}
-
+	
+	/*날짜 계산*/
+	@RequestMapping(value="/calcDate")
+	public String calcDate(@RequestParam String target, @RequestParam String day,Model model) {		
+		System.out.println(target+" 으로 부터"+day+"일은?");		
+		int num = Integer.parseInt(day);
+		model.addAttribute("target",target);
+		model.addAttribute("day",day);
+		model.addAttribute("date",DateUtil.clacDate(target, num));		
+		return "home";		
+	}
+	
+	/*스마트 에디터 이동*/
+	@RequestMapping(value="/naverEditorSample")
+	public String editorSample() {		
+		return "editor";		
+	}
+	
+	/*스마트 에디터 사진 업로드*/
+	@RequestMapping(value="/editorPhotoUpload")
+	public void editorPhotoUpload(HttpServletRequest request, HttpServletResponse response) {		
+		FileUtil fileUtil = new FileUtil();	
+		fileUtil.editorPhotoUpload(request, response, root);	
+	}
+	
+	
+	
+	
 	
 }
