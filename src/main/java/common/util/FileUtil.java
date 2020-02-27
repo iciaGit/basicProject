@@ -81,6 +81,7 @@ public class FileUtil {
 			System.out.println("file name : "+downFile);
 			resp.setContentType("application/octet-stream");
 			resp.setHeader("content-Disposition","attachment; filename=\""+downFile+"\"");
+			resp.setHeader("Access-Control-Allow-Origin", "*"); 
 		
 			//response write
 			BufferedOutputStream bos = new BufferedOutputStream(resp.getOutputStream());			
@@ -147,6 +148,7 @@ public class FileUtil {
 			resp.setHeader("Content-Range",  "bytes "+start+"-"+end+"/"+fileSize);
 			resp.setHeader("Accept-Ranges",  "bytes");
 			resp.setHeader("Content-Length", ""+partSize);		
+			resp.setHeader("Access-Control-Allow-Origin", "*"); 
 				
 			bos = new BufferedOutputStream(resp.getOutputStream());			
 			byte[] buff = new byte[1024];	
